@@ -1,39 +1,30 @@
-import { useState } from 'react';
-import { useDispatch } from "react-redux";
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { addContact } from '../Redux/action';
-function ContactForm() {
 
+const ContactForm = () => {
+    const dispatch = useDispatch();
 
-    const dispatch = useDispatch()
+    const initialState = {
+        first_name: '',
+        last_name: '',
+        mob: '',
+        status: 'active'
+    };
 
-    const [form, setForm] = useState({
-        first_name: "",
-        last_name: "",
-        mob: "",
-        status: "active"
-    })
+    const [form, setForm] = useState(initialState);
 
     const handleChange = (e) => {
+        const { name, value } = e.target;
+        setForm((prevForm) => ({
+            ...prevForm,
+            [name]: value
+        }));
+    };
 
-
-        setForm({
-            ...form,
-            [e.target.name]: e.target.value
-        })
-
-
-    }
-
-
-
-
-    function handleSave() {
-
-
-
-        dispatch(addContact(form))
-
-    }
+    const handleSave = () => {
+        dispatch(addContact(form));
+    };
 
     return (
         <div className="w-1/2 mx-auto my-4 pt-16">
@@ -73,8 +64,6 @@ function ContactForm() {
                     id="last-name"
                     type="number"
                     name="mob"
-                    min='10'
-                    max='10'
                     value={form.mob}
                     onChange={handleChange}
                 />
@@ -90,8 +79,8 @@ function ContactForm() {
                     value={form.status}
                     onChange={handleChange}
                 >
-                    <option value={'active'}>Active</option>
-                    <option value={"inactive"}>Inactive</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
                 </select>
             </div>
             <button
@@ -102,7 +91,6 @@ function ContactForm() {
             </button>
         </div>
     );
-}
+};
 
-
-export default ContactForm
+export default ContactForm;

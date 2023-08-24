@@ -1,49 +1,33 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { editContact } from '../Redux/action';
 
+const EditContact = () => {
+    const { id } = useParams();
+    const dispatch = useDispatch();
+    const allContacts = useSelector((store) => store.contacts);
 
-function EditContact() {
-
-
-    const { id } = useParams()
-    console.log(id)
-
-    const dispatch = useDispatch()
-
-    const AllContact = useSelector((store) => store.contacts)
-
-
-
-    const [form, setForm] = useState({})
+    const [form, setForm] = useState({});
 
     const handleChange = (e) => {
-     
-        setForm({
-            ...form,
-            [e.target.name]: e.target.value
-        })
+        const { name, value } = e.target;
+        setForm((prevForm) => ({
+            ...prevForm,
+            [name]: value
+        }));
+    };
 
-
-    }
-
-
-
-
-    function handleSave() {
-
-
-
-        dispatch(editContact({ id, ...form }))
-
-    }
+    const handleSave = () => {
+        dispatch(editContact({ id, ...form }));
+    };
 
     useEffect(() => {
-
-        AllContact.filter((el) => el.id == id && setForm(el))
-
-    }, [])
+        const contactToEdit = allContacts.find((el) => el.id === id);
+        if (contactToEdit) {
+            setForm(contactToEdit);
+        }
+    }, [allContacts, id]);
 
     return (
         <div className="w-1/2 mx-auto my-4 pt-16">
@@ -57,7 +41,7 @@ function EditContact() {
                     id="first-name"
                     type="text"
                     name="first_name"
-                    value={form.first_name}
+                    value={form.first_name || ''}
                     onChange={handleChange}
                 />
             </div>
@@ -70,7 +54,7 @@ function EditContact() {
                     id="last-name"
                     type="text"
                     name="last_name"
-                    value={form.last_name}
+                    value={form.last_name || ''}
                     onChange={handleChange}
                 />
             </div>
@@ -83,7 +67,7 @@ function EditContact() {
                     id="last-name"
                     type="number"
                     name="mob"
-                    value={form.mob}
+                    value={form.mob || ''}
                     onChange={handleChange}
                 />
             </div>
@@ -95,11 +79,11 @@ function EditContact() {
                     className="w-full border border-gray-400 p-2 rounded-md"
                     id="status"
                     name="status"
-                    value={form.status}
+                    value={form.status || ''}
                     onChange={handleChange}
                 >
-                    <option value={'active'}>Active</option>
-                    <option value={"inactive"}>Inactive</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
                 </select>
             </div>
             <button
@@ -110,7 +94,6 @@ function EditContact() {
             </button>
         </div>
     );
-}
+};
 
-
-export default EditContact
+export default EditContact;

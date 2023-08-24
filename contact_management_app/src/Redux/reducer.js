@@ -4,28 +4,6 @@ import { ADD_CONTACT, EDIT_CONTACT, REMOVE_CONTACT } from './actionTypes';
 
 const initialState = {
   contacts:
-  //  [
-  //   {
-  //   id:1,
-  //   first_name:"Person1",
-  //   last_name:"Lastname1",
-  //   mob:"9122545553",
-  //   status:"active"
-  // },{
-  //   id:2,
-  //   first_name:"Person2",
-  //   last_name:"Lastname2",
-  //   mob:"9122545553",
-  //   status:'inactive'
-  // },{
-  //   id:3,
-  //   first_name:"Person3",
-  //   last_name:"Lastname3",
-  //   mob:"9122545553",
-  //   status:'active'
-  // }
-
-// ]||
 JSON.parse(localStorage.getItem("contacts"))||[],
 };
 
